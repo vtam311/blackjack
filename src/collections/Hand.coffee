@@ -11,7 +11,7 @@ class window.Hand extends Backbone.Collection
       @add(@deck.pop())
 
   hasAce: -> @reduce (memo, card) ->
-    memo or card.get('value') is 1
+    memo or card.get('value') is 1 and card.get 'revealed'
   , 0
 
   minScore: -> @reduce (score, card) ->
@@ -27,3 +27,11 @@ class window.Hand extends Backbone.Collection
   stand: ->
     @at(0).flip()
     @hit()
+
+  getHighestValidScore: ->
+    if @scores()[0] > 21 and @scores()[1] > 21
+      return 21 - @scores()[0];
+    else if @scores()[1] > 21
+      return @scores()[0];
+    else
+      return @scores()[1]

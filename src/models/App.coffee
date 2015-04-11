@@ -6,3 +6,18 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
 
+  getWinner: ->
+    player = @get 'playerHand'
+    dealer = @get 'dealerHand'
+
+    playerScore = player.getHighestValidScore()
+    dealerScore = dealer.getHighestValidScore()
+
+    if playerScore > dealerScore
+      "player wins"
+    else if playerScore is dealerScore
+      "tie"
+    else
+      "dealer wins"
+
+

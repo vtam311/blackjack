@@ -3,20 +3,25 @@ class window.AppView extends Backbone.View
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
-
+    <div class="winner"></div>
   '
 
   events:
-    'click .hit-button': -> @model.get('playerHand').hit()
+    'click .hit-button': ->
+      @model.get('playerHand').hit()
+      if @model.get('playerHand').getHighestValidScore() < 0
+        @model.get('dealerHand').stand()
+        @displayWinner()
     'click .stand-button': ->
       @model.get('dealerHand').stand()
+      @displayWinner()
 
   initialize: ->
     @render()
 
   displayWinner: ->
-    @model.getWinner() # returns dealer or player
-    # toggle game results
+    # @model.getWinner()
+    @$el.find('.winner').text(@model.getWinner())
 
   render: ->
     @$el.children().detach()
